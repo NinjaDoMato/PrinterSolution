@@ -23,7 +23,7 @@ namespace PrinterSolution.PriceAPI.Controllers
             _logger = logger;
             _priceService = priceService;
         }
-
+         
         [HttpPost]
         [Route("EstimatePrice")]
         public ActionResult<PriceEstimation> EstimatePrice([FromBody] EstimatePriceRequest request)
