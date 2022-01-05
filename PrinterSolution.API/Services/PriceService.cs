@@ -1,6 +1,6 @@
 ﻿using PrinterSolution.Common.Database;
 using PrinterSolution.Common.Utils.Enum;
-using PrinterSolution.PriceAPI.Models.Responses;
+using PrinterSolution.PriceAPI.Models.Middleware.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

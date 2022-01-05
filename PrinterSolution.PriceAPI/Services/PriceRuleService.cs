@@ -1,9 +1,9 @@
-﻿using PrinterSolution.Common.Entities;
+﻿using PrinterSolution.Common.Database;
+using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Utils.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PrinterSolution.PriceAPI.Services
 {
@@ -13,46 +13,89 @@ namespace PrinterSolution.PriceAPI.Services
         public List<PriceRule> GetRules();
         public List<PriceRule> GetRulesByType(PriceRuleOperation type);
         public List<PriceRule> GetRulesByTarget(PriceRuleTarget target);
-        public PriceRule CreateRule(string name, string description, PriceRuleTarget target, PriceRuleOperation type, decimal amount);
+        public PriceRule CreateRule(string name, string code, string description, PriceRuleTarget target, PriceRuleOperation type, decimal amount, int priority = 0);
         public PriceRule UpdateRule(PriceRule newRule);
-        public PriceRule DelceteRule(int id);
+        public bool DelceteRule(int id);
     }
 
     public class PriceRuleService : IPriceRuleService
     {
-        public PriceRule CreateRule(string name, string description, PriceRuleTarget target, PriceRuleOperation type, decimal amount)
+        private readonly DatabaseContext _ctx;
+
+        public PriceRuleService(DatabaseContext context)
         {
-            throw new NotImplementedException();
+            _ctx = context;
         }
 
-        public PriceRule DelceteRule(int id)
+        public PriceRule CreateRule(string name, string code, string description, PriceRuleTarget target, PriceRuleOperation type, decimal amount, int priority)
         {
-            throw new NotImplementedException();
+            if (_ctx.PriceRule.Any(p => p.Name == name))
+                throw new Exception("This name is already used by another price rule.");
+
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("Name cannot be empty");
+
+            if (string.IsNullOrEmpty(code))
+                throw new Exception("Code cannot be empty");
+
+            var priceRule = new PriceRule
+            {
+                Name = name,
+                Description = description,
+                Target = target,
+                Operation = type,
+                Value = amount,
+                Code = code,
+                Priority = priority,
+                Status = true
+            };
+
+            _ctx.PriceRule.Add(priceRule);
+            _ctx.SaveChanges();
+
+            return priceRule;
+        }
+
+        public bool DelceteRule(int id)
+        {
+            var priceRule = _ctx.PriceRule.Find(id);
+
+            if (priceRule == null)
+                throw new KeyNotFoundException("Price Rule not found.");
+
+            _ctx.PriceRule.Remove(priceRule);
+
+            return true;
         }
 
         public PriceRule GetRuleById(int id)
         {
-            throw new NotImplementedException();
+            return _ctx.PriceRule.Find(id);
         }
 
         public List<PriceRule> GetRules()
         {
-            throw new NotImplementedException();
+            return _ctx.PriceRule.ToList();
         }
 
         public List<PriceRule> GetRulesByTarget(PriceRuleTarget target)
         {
-            throw new NotImplementedException();
+            return _ctx.PriceRule.Where(p => p.Target == target).ToList();
         }
 
         public List<PriceRule> GetRulesByType(PriceRuleOperation type)
         {
-            throw new NotImplementedException();
+            return _ctx.PriceRule.Where(p => p.Operation == type).ToList();
         }
 
         public PriceRule UpdateRule(PriceRule newRule)
         {
-            throw new NotImplementedException();
+            if (_ctx.PriceRule.Any(p => p.Id != newRule.Id && (p.Name == newRule.Name || p.Code == newRule.Code)))
+                throw new Exception("This name or code is already used.");
+
+            _ctx.PriceRule.Update(newRule);
+
+            return newRule;
         }
     }
 }

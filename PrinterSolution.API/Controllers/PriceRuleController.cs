@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Logging;
 using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Utils.Enum;
-using PrinterSolution.PriceAPI.Models.Requests;
-using PrinterSolution.PriceAPI.Models.Requests.PriceRule;
-using PrinterSolution.PriceAPI.Models.Responses;
+using PrinterSolution.PriceAPI.Models.Middleware.Requests;
+using PrinterSolution.PriceAPI.Models.Middleware.Requests.PriceRule;
+using PrinterSolution.PriceAPI.Models.Middleware.Responses;
 using PrinterSolution.PriceAPI.Services;
 using System;
 using System.Collections.Generic;
@@ -55,7 +55,7 @@ namespace PrinterSolution.PriceAPI.Controllers
         {
             try
             {
-                var result = _priceRuleService.CreateRule(request.Name, request.Code, request.Description, request.Target, request.Type, request.Value, request.Priority);
+                var result = _priceRuleService.CreateRule(request.Name, request.Description, request.Target, request.Type, request.Value);
 
                 return Ok(result);
             }
@@ -72,8 +72,9 @@ namespace PrinterSolution.PriceAPI.Controllers
         {
             try
             {
-                // TODO
-                return Ok();
+                var result = _priceRuleService.CreateRule(request.Name, request.Description, request.Target, request.Type, request.Value);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

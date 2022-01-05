@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PrinterSolution.PriceAPI.Models.Requests;
-using PrinterSolution.PriceAPI.Models.Responses;
+using PrinterSolution.PriceAPI.Models.Middleware.Requests;
+using PrinterSolution.PriceAPI.Models.Middleware.Responses;
 using PrinterSolution.PriceAPI.Services;
 using System;
 using System.Collections.Generic;
