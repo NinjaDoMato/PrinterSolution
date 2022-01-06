@@ -1,23 +1,22 @@
 ﻿using PrinterSolution.Common.Database;
 using PrinterSolution.Common.Utils.Enum;
-using PrinterSolution.PriceAPI.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PrinterSolution.PriceAPI.Services
+namespace PrinterSolution.Common.Services
 {
     public interface IPriceService
     {
-        public PriceEstimation EstimateFinalPrice(decimal weight, string materialCode, decimal hoursPrinting, decimal manualWorkTime);
+        public decimal EstimateFinalPrice(decimal weight, string materialCode, decimal hoursPrinting, decimal manualWorkTime);
         public decimal EstimateProductionCost(decimal weight, string materialCode, decimal hoursPrinting, decimal manualWorkTime);
     }
 
 
     public class PriceService : IPriceService
     {
-        public PriceEstimation EstimateFinalPrice(decimal weight, string materialCode, decimal hoursPrinting, decimal manualWorkTime)
+        public decimal EstimateFinalPrice(decimal weight, string materialCode, decimal hoursPrinting, decimal manualWorkTime)
         {
             var productionCost = EstimateProductionCost(weight, materialCode, hoursPrinting, manualWorkTime);
             var finalPrice = productionCost;
@@ -32,15 +31,17 @@ namespace PrinterSolution.PriceAPI.Services
                 }
             }
 
-            return new PriceEstimation
-            {
-                ProductionCost = productionCost,
-                FinalPrice = finalPrice
-            };
+            return finalPrice;
         }
 
         public decimal EstimateProductionCost(decimal weight, string materialCode, decimal hoursPrinting, decimal preparationTime)
         {
+            if (string.IsNullOrEmpty(materialCode))
+                throw new ArgumentException("Please provide a valid Material Code.");
+
+            if (weight <= 0 || hoursPrinting <= 0 || preparationTime < 0)
+                throw new ArgumentException("This parameters are not valid.");
+
             decimal cost = 0m;
 
             using (var ctx = new DatabaseContext())
@@ -51,8 +52,12 @@ namespace PrinterSolution.PriceAPI.Services
                     r.Target == PriceRuleTarget.MaterialCost);
 
                 var material = ctx.Material.FirstOrDefault(m => m.Code == materialCode);
-                var energyPrice = Convert.ToDecimal(ctx.Configuration.FirstOrDefault(c => c.Code == "Kvh"));
-                var averagePowerUse = Convert.ToDecimal(ctx.Configuration.FirstOrDefault(c => c.Code == "AvgKvh"));
+
+                if (material == null)
+                    throw new ArgumentException("Material not found.");
+
+                var energyPrice = Convert.ToDecimal(ctx.Configuration.FirstOrDefault(c => c.Code == "kWh"));
+                var averagePowerUse = Convert.ToDecimal(ctx.Configuration.FirstOrDefault(c => c.Code == "AvgkWh"));
                 var preparationPrice = Convert.ToDecimal(ctx.Configuration.FirstOrDefault(c => c.Code == "MWC"));
 
                 var materialCost = weight * material.PricePerKilo;
