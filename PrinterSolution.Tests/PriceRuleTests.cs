@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using PrinterSolution.Common.Entities;
+using PrinterSolution.Common.Services;
 using PrinterSolution.Common.Utils.Enum;
-using PrinterSolution.PriceAPI.Services;
 using System;
 using Xunit;
 

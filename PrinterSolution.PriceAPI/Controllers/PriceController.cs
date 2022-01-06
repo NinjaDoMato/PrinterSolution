@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PrinterSolution.Common.Services;
 using PrinterSolution.PriceAPI.Models.Requests;
 using PrinterSolution.PriceAPI.Models.Responses;
-using PrinterSolution.PriceAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +23,39 @@ namespace PrinterSolution.PriceAPI.Controllers
             _logger = logger;
             _priceService = priceService;
         }
-         
-        [HttpPost]
-        [Route("EstimatePrice")]
-        public ActionResult<PriceEstimation> EstimatePrice([FromBody] EstimatePriceRequest request)
-        {
-            var result = _priceService.EstimateFinalPrice(request.Weight, request.MaterialCode, request.HoursPrinting, request.PreparationTime);
 
-            return Ok(result);
+        [HttpPost]
+        [Route("EstimateFinalPrice")]
+        public ActionResult<decimal> EstimateFinalPrice([FromBody] EstimatePriceRequest request)
+        {
+            try
+            {
+                var result = _priceService.EstimateFinalPrice(request.Weight, request.MaterialCode, request.HoursPrinting, request.PreparationTime);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("EstimateDetailedPrice")]
+        public ActionResult<PriceEstimation> EstimateDetailedPrice([FromBody] EstimatePriceRequest request)
+        {
+            try
+            {
+                var result = _priceService.EstimateDetailedCosts(request.Weight, request.MaterialCode, request.HoursPrinting, request.PreparationTime);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+            }
         }
     }
 }

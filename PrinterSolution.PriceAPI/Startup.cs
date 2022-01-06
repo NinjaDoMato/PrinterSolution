@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PrinterSolution.Common.Database;
-using PrinterSolution.PriceAPI.Services;
+using PrinterSolution.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +32,7 @@ namespace PrinterSolution.PriceAPI
 
             services.AddDbContext<DatabaseContext>();
 
+            services.AddScoped<IMaterialService, MaterialService>();
             services.AddScoped<IPriceService, PriceService>();
             services.AddScoped<IPriceRuleService, PriceRuleService>();
 

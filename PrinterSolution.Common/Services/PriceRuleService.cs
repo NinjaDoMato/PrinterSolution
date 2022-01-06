@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PrinterSolution.PriceAPI.Services
+namespace PrinterSolution.Common.Services
 {
     public interface IPriceRuleService
     {
