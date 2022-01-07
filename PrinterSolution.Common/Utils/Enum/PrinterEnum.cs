@@ -9,9 +9,9 @@ namespace PrinterSolution.Common.Utils.Enum
     public enum PrinterStatus
     {
         Offline,
-        Idle,
-        WaitingOperator,
-        Printing
+        Operational,
+        Printing,
+        WaitingOperator
     }
 
     public enum PrinterType
