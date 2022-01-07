@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace PrinterSolution.Common.Entities
 {
-    public class Configuration
+    public class Configuration : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Code{ get; set; }
         public string Value { get; set; }

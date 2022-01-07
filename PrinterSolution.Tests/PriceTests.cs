@@ -1,4 +1,5 @@
 ﻿using Moq;
+using PrinterSolution.Common.DTOs;
 using PrinterSolution.Common.Services;
 using System;
 using System.Collections.Generic;
@@ -12,23 +13,26 @@ namespace PrinterSolution.Tests
     public class PriceTests
     {
         [Fact]
-        public void ValidEstimateProductionCost()
+        public void ValidEstimateDetailedCosts()
         {
-            //// Arrange
-            //var mock = new Mock<IPriceService>();
+            // Arrange
+            var mock = new Mock<IPriceService>();
 
-            //var material = Math.Abs(It.IsAny<decimal>());
-            //var hoursPrinting = Math.Abs(It.IsAny<decimal>());
-            //var postWork = Math.Abs(It.IsAny<decimal>());
+            var returnData = new DetailedPriceEstimation();
 
-            //mock.Setup(m =>
-            //    m.EstimateProductionCost(material, "PLA", hoursPrinting, postWork));
+            mock.Setup(m =>
+                m.EstimateDetailedCosts(Math.Abs(It.IsAny<decimal>()), "PLA", Math.Abs(It.IsAny<decimal>()), Math.Abs(It.IsAny<decimal>())))
+                .Returns(returnData);
 
-            //// Act
-            //var result = mock.Object.EstimateProductionCost(material, "PLA", hoursPrinting, postWork);
+            // Act
+            var result = mock.Object.EstimateDetailedCosts(Math.Abs(It.IsAny<decimal>()), "PLA", Math.Abs(It.IsAny<decimal>()), Math.Abs(It.IsAny<decimal>()));
 
-            //// Assert
-            //Assert.True(result > 0);
+            // Assert
+            Assert.True(result.FinalPrice >= 0);
+            Assert.True(result.TotalProductionCost >= 0);
+            Assert.True(result.TotalEnergyCost >= 0);
+            Assert.True(result.TotalPreparationCost >= 0);
+            Assert.True(result.TotalAditionalCost >= 0);
         }
     }
 }

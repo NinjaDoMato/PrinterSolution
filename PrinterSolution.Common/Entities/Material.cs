@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace PrinterSolution.Common.Entities
 {
-    public class Material
+    public class Material : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public decimal PricePerKilo { get; set; }
+        public decimal Weight { get; set; }
+        public decimal WeightLeft { get; set; }
         public MaterialType Type { get; set; }
     }
 }

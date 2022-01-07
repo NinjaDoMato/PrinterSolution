@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.PriceAPI", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.Common", "PrinterSolution.Common\PrinterSolution.Common.csproj", "{002989DE-EFDC-4CC1-8897-5562E37D15E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrinterSolution.Tests", "PrinterSolution.Tests\PrinterSolution.Tests.csproj", "{DD2C0ACE-531E-4683-858C-A558BB2D570E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.Tests", "PrinterSolution.Tests\PrinterSolution.Tests.csproj", "{DD2C0ACE-531E-4683-858C-A558BB2D570E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrinterSolution.PrinterAPI", "PrinterSolution.PrinterAPI\PrinterSolution.PrinterAPI.csproj", "{D92801E4-7F80-4CE7-894E-402A8789D9F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{DD2C0ACE-531E-4683-858C-A558BB2D570E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD2C0ACE-531E-4683-858C-A558BB2D570E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD2C0ACE-531E-4683-858C-A558BB2D570E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92801E4-7F80-4CE7-894E-402A8789D9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92801E4-7F80-4CE7-894E-402A8789D9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92801E4-7F80-4CE7-894E-402A8789D9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92801E4-7F80-4CE7-894E-402A8789D9F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

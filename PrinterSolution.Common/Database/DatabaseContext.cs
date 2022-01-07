@@ -30,7 +30,12 @@ namespace PrinterSolution.Common.Database
             modelBuilder.Entity<Material>()
                .Property(b => b.Name)
                .HasMaxLength(25);
+
+            modelBuilder.Entity<Printer>()
+              .Property(b => b.Name)
+              .HasMaxLength(25);
         }
+
 
         #region PriceEntities
         public DbSet<PriceRule> PriceRule { get; set; }

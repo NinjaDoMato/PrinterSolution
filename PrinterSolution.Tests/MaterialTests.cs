@@ -35,6 +35,8 @@ namespace PrinterSolution.Tests
             Assert.Equal(testData.Name, result.Name);
             Assert.Equal(testData.Code, result.Code);
             Assert.Equal(testData.PricePerKilo, result.PricePerKilo);
+            Assert.Equal(testData.Weight, result.Weight);
+            Assert.Equal(testData.WeightLeft, result.WeightLeft);
             Assert.Equal(testData.Type, result.Type);
         }
     }
