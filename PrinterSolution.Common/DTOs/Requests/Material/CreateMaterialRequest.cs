@@ -1,6 +1,6 @@
 ﻿using PrinterSolution.Common.Utils.Enum;
 
-namespace PrinterSolution.PriceAPI.Models.Requests
+namespace PrinterSolution.Common.DTOs.Requests
 {
     public class CreateMaterialRequest
     {

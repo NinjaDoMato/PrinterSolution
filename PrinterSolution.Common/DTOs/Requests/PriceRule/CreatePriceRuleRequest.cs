@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PrinterSolution.PriceAPI.Models.Requests.PriceRule
+namespace PrinterSolution.Common.DTOs.Requests
 {
     public class CreatePriceRuleRequest
     {

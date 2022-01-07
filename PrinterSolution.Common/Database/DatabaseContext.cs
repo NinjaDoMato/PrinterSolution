@@ -41,6 +41,7 @@ namespace PrinterSolution.Common.Database
         public DbSet<PriceRule> PriceRule { get; set; }
         public DbSet<Configuration> Configuration{ get; set; }
         public DbSet<Material> Material{ get; set; }
+        public DbSet<Printer> Printer{ get; set; }
 
         #endregion
     }

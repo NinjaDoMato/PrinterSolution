@@ -19,4 +19,8 @@
     <ProjectReference Include="..\PrinterSolution.Common\PrinterSolution.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

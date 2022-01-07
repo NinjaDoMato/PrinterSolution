@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PrinterSolution.Common.DTOs.Requests;
 using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Services;
 using PrinterSolution.PriceAPI.Models.Requests;

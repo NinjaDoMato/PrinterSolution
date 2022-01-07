@@ -32,9 +32,11 @@ namespace PrinterSolution.PriceAPI
 
             services.AddDbContext<DatabaseContext>();
 
+            // TODO: Move this to CORE
             services.AddScoped<IMaterialService, MaterialService>();
             services.AddScoped<IPriceService, PriceService>();
             services.AddScoped<IPriceRuleService, PriceRuleService>();
+            services.AddScoped<IPrinterService, PrinterService>();
 
             services.AddSwaggerGen(c =>
             {

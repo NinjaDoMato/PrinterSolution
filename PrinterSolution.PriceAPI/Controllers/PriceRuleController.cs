@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PrinterSolution.Common.DTOs.Requests;
 using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Services;
 using PrinterSolution.Common.Utils.Enum;
 using PrinterSolution.PriceAPI.Models.Requests;
-using PrinterSolution.PriceAPI.Models.Requests.PriceRule;
 using PrinterSolution.PriceAPI.Models.Responses;
 using System;
 using System.Collections.Generic;
