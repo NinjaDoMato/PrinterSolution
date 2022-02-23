@@ -10,12 +10,16 @@ namespace PrinterSolution.Common.Database
 {
     public class DatabaseContext : DbContext
     {
-        private string _connectionString = "Server=localhost;Database=PrinterSolution;Trusted_Connection=True;";
+        //private string _connectionString = "Server=localhost;Database=PrinterSolution;Trusted_Connection=True;";
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(_connectionString);
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

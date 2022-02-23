@@ -1,57 +1,56 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Services;
 using PrinterSolution.Common.Utils.Enum;
+using PrinterSolution.Tests.Context;
+using PrinterSolution.Tests.Faker;
 using System;
-using Xunit;
 
 namespace PrinterSolution.Tests
 {
+    [TestClass]
     public class PrinterUnitTests
     {
-        [Fact]
+        private readonly IPrinterService _service;
+        private readonly PrinterFaker _faker = new PrinterFaker();
+
+        public PrinterUnitTests()
+        {
+            var context = new InMemoryDatabaseContext();
+
+            _service = new PrinterService(context.Context);
+        }
+
+
+        [TestMethod]
         public void ValidCreatePrinter()
         {
             // Arrange
-            var mock = new Mock<IPrinterService>();
-
-            var testData = new Printer
-            {
-                Name = It.IsAny<string>(),
-                Address = It.IsAny<string>(),
-                Width = It.IsAny<int>(),
-                Height = It.IsAny<int>(),
-                Depth = It.IsAny<int>(),
-                HasHeatedBed = It.IsAny<bool>(),
-                Status = It.IsAny<PrinterStatus>()
-            };
-
-            mock.Setup(m =>
-                m.CreatePrinter(testData.Name, testData.Address, testData.Type, testData.Height, testData.Width, testData.Depth, testData.HasHeatedBed))
-                .Returns(testData);
+            var testData = _faker.Generate();
 
             // Act
-            var result = mock.Object.CreatePrinter(testData.Name, testData.Address, testData.Type, testData.Height, testData.Width, testData.Depth, testData.HasHeatedBed);
+            var result = _service.CreatePrinter(testData.Name, testData.Address, testData.Type, testData.Height, testData.Width, testData.Depth, testData.HasHeatedBed);
 
             // Assert
-            Assert.Equal(testData.Name, result.Name);
-            Assert.Equal(testData.Address, result.Address);
-            Assert.Equal(testData.HasHeatedBed, result.HasHeatedBed);
-            Assert.Equal(testData.Height, result.Height);
-            Assert.Equal(testData.Width, result.Width);
-            Assert.Equal(testData.Depth, result.Depth);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(Printer));
+            Assert.IsTrue(testData.Name.Equals(result.Name));
+            Assert.IsTrue(testData.Address.Equals(result.Address));
+            Assert.IsTrue(testData.HasHeatedBed.Equals(result.HasHeatedBed));
+            Assert.IsTrue(testData.Height.Equals(result.Height));
+            Assert.IsTrue(testData.Width.Equals(result.Width));
+            Assert.IsTrue(testData.Depth.Equals(result.Depth));
         }
 
-        [Fact]
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void NotValidCreatePrinter()
         {
             // Arrange
-            var mock = new Mock<IPrinterService>();
-
             var testData = new Printer
             {
-                Name = It.IsAny<string>(),
+                Name = string.Empty,
                 Address = It.IsAny<string>(),
                 Width = It.IsAny<int>(),
                 Height = It.IsAny<int>(),
@@ -60,20 +59,8 @@ namespace PrinterSolution.Tests
                 Status = It.IsAny<PrinterStatus>()
             };
 
-            mock.Setup(m =>
-                m.CreatePrinter(testData.Name, testData.Address, testData.Type, testData.Height, testData.Width, testData.Depth, testData.HasHeatedBed))
-                .Throws(new Exception("Name cannot be empty"));
+            _ = _service.CreatePrinter(testData.Name, testData.Address, testData.Type, testData.Height, testData.Width, testData.Depth, testData.HasHeatedBed);
 
-            // Act
-            try
-            {
-                var result = mock.Object.CreatePrinter(testData.Name, testData.Address, testData.Type, testData.Height, testData.Width, testData.Depth, testData.HasHeatedBed);
-            }
-            catch (Exception ex)
-            {
-                // Assert
-                Assert.Equal("Name cannot be empty", ex.Message);
-            }
         }
     }
 }

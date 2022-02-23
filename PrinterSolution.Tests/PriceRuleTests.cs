@@ -1,26 +1,36 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Services;
 using PrinterSolution.Common.Utils.Enum;
+using PrinterSolution.Tests.Context;
 using System;
-using Xunit;
 
 namespace PrinterSolution.Tests
 {
+    [TestClass]
     public class PriceRuleUnitTests
     {
-        [Fact]
+        private readonly IPriceRuleService _service;
+
+        public PriceRuleUnitTests()
+        {
+            var context = new InMemoryDatabaseContext();
+
+            _service = new PriceRuleService(context.Context);
+        }
+
+
+        [TestMethod]
         public void ValidCreatePriceRule()
         {
             // Arrange
-            var mock = new Mock<IPriceRuleService>();
-
             var testData = new PriceRule
             {
-                Code = It.IsAny<string>(),
-                Name = It.IsAny<string>(),
-                Description = It.IsAny<string>(),
+                Code = "TST_PRICE",
+                Name = "Test price rule",
+                Description = "Price rule used for tests",
                 Target = It.IsAny<PriceRuleTarget>(),
                 Operation = It.IsAny<PriceRuleOperation>(),
                 Value = It.IsAny<decimal>(),
@@ -28,30 +38,26 @@ namespace PrinterSolution.Tests
                 Status = true
             };
 
-            mock.Setup(m =>
-                m.CreateRule(testData.Name, testData.Code, testData.Description, testData.Target, testData.Operation, testData.Value, testData.Priority))
-                .Returns(testData);
-
             // Act
-            var result = mock.Object.CreateRule(testData.Name, testData.Code, testData.Description, testData.Target, testData.Operation, testData.Value, testData.Priority);
+            var result = _service.CreateRule(testData.Name, testData.Code, testData.Description, testData.Target, testData.Operation, testData.Value, testData.Priority);
 
             // Assert
-            Assert.Equal(testData.Name, result.Name);
-            Assert.Equal(testData.Code, result.Code);
-            Assert.Equal(testData.Description, result.Description);
-            Assert.Equal(testData.Value, result.Value);
-            Assert.Equal(testData.Operation, result.Operation);
-            Assert.Equal(testData.Target, result.Target);
-            Assert.Equal(testData.Priority, result.Priority);
-            Assert.Equal(testData.Status, result.Status);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(PriceRule));
+            Assert.IsTrue(testData.Name.Equals(result.Name));
+            Assert.IsTrue(testData.Code.Equals(result.Code));
+            Assert.IsTrue(testData.Description.Equals(result.Description));
+            Assert.IsTrue(testData.Value.Equals(result.Value));
+            Assert.IsTrue(testData.Operation.Equals(result.Operation));
+            Assert.IsTrue(testData.Target.Equals(result.Target));
+            Assert.IsTrue(testData.Priority.Equals(result.Priority));
+            Assert.IsTrue(testData.Status.Equals(result.Status));
         }
 
-        [Fact]
+        [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void NotValidCreatePriceRule()
         {
             // Arrange
-            var mock = new Mock<IPriceRuleService>();
-
             var testData = new PriceRule
             {
                 Code = string.Empty,
@@ -64,20 +70,7 @@ namespace PrinterSolution.Tests
                 Status = true
             };
 
-            mock.Setup(m =>
-                m.CreateRule(testData.Name, testData.Code, testData.Description, testData.Target, testData.Operation, testData.Value, testData.Priority))
-                .Throws(new Exception("Name cannot be empty"));
-
-            // Act
-            try
-            {
-                var result = mock.Object.CreateRule(testData.Name, testData.Code, testData.Description, testData.Target, testData.Operation, testData.Value, testData.Priority);
-            }
-            catch (Exception ex)
-            {
-                // Assert
-                Assert.Equal("Name cannot be empty", ex.Message);
-            }
+            _ = _service.CreateRule(testData.Name, testData.Code, testData.Description, testData.Target, testData.Operation, testData.Value, testData.Priority);
         }
     }
 }

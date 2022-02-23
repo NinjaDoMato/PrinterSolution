@@ -30,13 +30,13 @@ namespace PrinterSolution.Common.Services
         public PriceRule CreateRule(string name, string code, string description, PriceRuleTarget target, PriceRuleOperation type, decimal amount, int priority)
         {
             if (_ctx.PriceRule.Any(p => p.Name == name))
-                throw new Exception("This name is already used by another price rule.");
+                throw new ArgumentException("This name is already used by another price rule.");
 
             if (string.IsNullOrEmpty(name))
-                throw new Exception("Name cannot be empty");
+                throw new ArgumentException("Name cannot be empty");
 
             if (string.IsNullOrEmpty(code))
-                throw new Exception("Code cannot be empty");
+                throw new ArgumentException("Code cannot be empty");
 
             var priceRule = new PriceRule
             {
