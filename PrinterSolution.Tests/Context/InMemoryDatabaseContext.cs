@@ -30,9 +30,9 @@ namespace PrinterSolution.Tests.Context
             var materialFaker = new MaterialFaker();
             var configurationFaker = new ConfigurationFaker();
 
-            Context.Printer.AddRange(printerFaker.Generate(5));
-            Context.Material.AddRange(materialFaker.Generate(7));
-            Context.Configuration.AddRange(configurationFaker.Generate(3));
+            Context.Printers.AddRange(printerFaker.Generate(5));
+            Context.Materials.AddRange(materialFaker.Generate(7));
+            Context.Configurations.AddRange(configurationFaker.Generate(3));
 
             Context.SaveChanges();
         }

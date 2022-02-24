@@ -29,7 +29,7 @@ namespace PrinterSolution.Common.Services
 
         public PriceRule CreateRule(string name, string code, string description, PriceRuleTarget target, PriceRuleOperation type, decimal amount, int priority)
         {
-            if (_ctx.PriceRule.Any(p => p.Name == name))
+            if (_ctx.PriceRules.Any(p => p.Name == name))
                 throw new ArgumentException("This name is already used by another price rule.");
 
             if (string.IsNullOrEmpty(name))
@@ -50,7 +50,7 @@ namespace PrinterSolution.Common.Services
                 Status = true
             };
 
-            _ctx.PriceRule.Add(priceRule);
+            _ctx.PriceRules.Add(priceRule);
             _ctx.SaveChanges();
 
             return priceRule;
@@ -58,42 +58,42 @@ namespace PrinterSolution.Common.Services
 
         public bool DelceteRule(int id)
         {
-            var priceRule = _ctx.PriceRule.Find(id);
+            var priceRule = _ctx.PriceRules.Find(id);
 
             if (priceRule == null)
                 throw new KeyNotFoundException("Price Rule not found.");
 
-            _ctx.PriceRule.Remove(priceRule);
+            _ctx.PriceRules.Remove(priceRule);
 
             return true;
         }
 
         public PriceRule GetRuleById(int id)
         {
-            return _ctx.PriceRule.Find(id);
+            return _ctx.PriceRules.Find(id);
         }
 
         public List<PriceRule> GetRules()
         {
-            return _ctx.PriceRule.ToList();
+            return _ctx.PriceRules.ToList();
         }
 
         public List<PriceRule> GetRulesByTarget(PriceRuleTarget target)
         {
-            return _ctx.PriceRule.Where(p => p.Target == target).ToList();
+            return _ctx.PriceRules.Where(p => p.Target == target).ToList();
         }
 
         public List<PriceRule> GetRulesByType(PriceRuleOperation type)
         {
-            return _ctx.PriceRule.Where(p => p.Operation == type).ToList();
+            return _ctx.PriceRules.Where(p => p.Operation == type).ToList();
         }
 
         public PriceRule UpdateRule(PriceRule newRule)
         {
-            if (_ctx.PriceRule.Any(p => p.Id != newRule.Id && (p.Name == newRule.Name || p.Code == newRule.Code)))
+            if (_ctx.PriceRules.Any(p => p.Id != newRule.Id && (p.Name == newRule.Name || p.Code == newRule.Code)))
                 throw new Exception("This name or code is already used.");
 
-            _ctx.PriceRule.Update(newRule);
+            _ctx.PriceRules.Update(newRule);
 
             return newRule;
         }

@@ -31,7 +31,7 @@ namespace PrinterSolution.Common.Services
             var productionCost = EstimateProductionCost(weight, materialCode, hoursPrinting, manualWorkTime);
             var finalPrice = productionCost;
 
-            var rules = ctx.PriceRule.Where(r =>
+            var rules = ctx.PriceRules.Where(r =>
                     r.Target == PriceRuleTarget.FinalPrice);
 
             foreach (var rule in rules.OrderByDescending(r => r.Priority))
@@ -53,19 +53,19 @@ namespace PrinterSolution.Common.Services
             decimal cost = 0m;
 
 
-            var rules = ctx.PriceRule.Where(r =>
+            var rules = ctx.PriceRules.Where(r =>
                 r.Target == PriceRuleTarget.Preparation ||
                 r.Target == PriceRuleTarget.EnergyCost ||
                 r.Target == PriceRuleTarget.MaterialCost).OrderBy(p => p.Priority);
 
-            var material = ctx.Material.FirstOrDefault(m => m.Code == materialCode);
+            var material = ctx.Materials.FirstOrDefault(m => m.Code == materialCode);
 
             if (material == null)
                 throw new ArgumentException("Material not found.");
 
-            var energyPrice = Decimal.Parse(ctx.Configuration.FirstOrDefault(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
-            var averagePowerUse = Decimal.Parse(ctx.Configuration.FirstOrDefault(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
-            var preparationPrice = Decimal.Parse(ctx.Configuration.FirstOrDefault(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
+            var energyPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
+            var averagePowerUse = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
+            var preparationPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
 
             var materialCost = weight * material.PricePerKilo;
             var energyCost = energyPrice * averagePowerUse * hoursPrinting;
@@ -106,16 +106,16 @@ namespace PrinterSolution.Common.Services
             var detailedPrice = new DetailedPriceEstimation();
 
 
-            var rules = ctx.PriceRule.Where(r => r.Status).OrderBy(p => p.Priority);
+            var rules = ctx.PriceRules.Where(r => r.Status).OrderBy(p => p.Priority);
 
-            var material = ctx.Material.FirstOrDefault(m => m.Code == materialCode);
+            var material = ctx.Materials.FirstOrDefault(m => m.Code == materialCode);
 
             if (material == null)
                 throw new ArgumentException("Material not found.");
 
-            var energyPrice = Decimal.Parse(ctx.Configuration.FirstOrDefault(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
-            var averagePowerUse = Decimal.Parse(ctx.Configuration.FirstOrDefault(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
-            var preparationPrice = Decimal.Parse(ctx.Configuration.FirstOrDefault(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
+            var energyPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
+            var averagePowerUse = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
+            var preparationPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
 
             detailedPrice.TotalMaterialCost = weight * material.PricePerKilo;
             detailedPrice.TotalEnergyCost = energyPrice * averagePowerUse * hoursPrinting;

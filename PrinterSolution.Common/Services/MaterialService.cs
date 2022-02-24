@@ -39,10 +39,10 @@ namespace PrinterSolution.Common.Services
             if (pricePerKilo <= 0)
                 throw new ArgumentException("Price per kilo must be greater than 0.");
 
-            if (_ctx.Material.Any(m => m.Name == name))
+            if (_ctx.Materials.Any(m => m.Name == name))
                 throw new Exception("This name is already used.");
 
-            if (_ctx.Material.Any(m => m.Code == code))
+            if (_ctx.Materials.Any(m => m.Code == code))
                 throw new Exception("This code is already used.");
 
             var newMaterial = new Material
@@ -53,7 +53,7 @@ namespace PrinterSolution.Common.Services
                 Type = type
             };
 
-            _ctx.Material.Add(newMaterial);
+            _ctx.Materials.Add(newMaterial);
             _ctx.SaveChanges();
 
             return newMaterial;
@@ -61,38 +61,38 @@ namespace PrinterSolution.Common.Services
 
         public bool DeleteMaterial(int id)
         {
-            var material = _ctx.Material.FirstOrDefault(m => m.Id == id);
+            var material = _ctx.Materials.FirstOrDefault(m => m.Id == id);
 
             if (material == null)
                 throw new KeyNotFoundException("Material not found.");
 
-            _ctx.Material.Remove(material);
+            _ctx.Materials.Remove(material);
 
             return true;
         }
 
         public Material GetMaterialById(int id)
         {
-            return _ctx.Material.FirstOrDefault(m => m.Id == id);
+            return _ctx.Materials.FirstOrDefault(m => m.Id == id);
         }
 
         public List<Material> GetMaterials()
         {
-            return _ctx.Material.ToList();
+            return _ctx.Materials.ToList();
         }
 
         public Material UpdateMaterial(Material material)
         {
-            if (!_ctx.Material.Any(m => m.Id == material.Id))
+            if (!_ctx.Materials.Any(m => m.Id == material.Id))
                 throw new KeyNotFoundException("Material not found.");
 
-            if (_ctx.Material.Any(m => m.Name == material.Name && m.Id != material.Id))
+            if (_ctx.Materials.Any(m => m.Name == material.Name && m.Id != material.Id))
                 throw new Exception("This name is already used.");
 
-            if (_ctx.Material.Any(m => m.Code == material.Code && m.Id != material.Id))
+            if (_ctx.Materials.Any(m => m.Code == material.Code && m.Id != material.Id))
                 throw new Exception("This code is already used.");
 
-            _ctx.Material.Update(material);
+            _ctx.Materials.Update(material);
 
             return material;
         }

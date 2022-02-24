@@ -48,7 +48,7 @@ namespace PrinterSolution.Common.Services
                 Status = PrinterStatus.Offline
             };
 
-            _ctx.Printer.Add(printer);
+            _ctx.Printers.Add(printer);
             _ctx.SaveChanges();
 
             return printer;

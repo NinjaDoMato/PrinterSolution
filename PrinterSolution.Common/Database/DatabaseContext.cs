@@ -10,16 +10,19 @@ namespace PrinterSolution.Common.Database
 {
     public class DatabaseContext : DbContext
     {
-        //private string _connectionString = "Server=localhost;Database=PrinterSolution;Trusted_Connection=True;";
+        private string _connectionString = "Server=localhost;Database=PrinterSolution;Trusted_Connection=True;";
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(_connectionString);
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(_connectionString);
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,14 +41,21 @@ namespace PrinterSolution.Common.Database
             modelBuilder.Entity<Printer>()
               .Property(b => b.Name)
               .HasMaxLength(25);
+
+            modelBuilder.Entity<OrderHistory>()
+              .HasOne<Order>(b => b.Order)
+              .WithMany(b => b.History)
+              .HasForeignKey(b => b.OrderId);
         }
 
 
         #region PriceEntities
-        public DbSet<PriceRule> PriceRule { get; set; }
-        public DbSet<Configuration> Configuration{ get; set; }
-        public DbSet<Material> Material{ get; set; }
-        public DbSet<Printer> Printer{ get; set; }
+        public DbSet<PriceRule> PriceRules { get; set; }
+        public DbSet<Configuration> Configurations{ get; set; }
+        public DbSet<Material> Materials{ get; set; }
+        public DbSet<Printer> Printers{ get; set; }
+        public DbSet<Order> Orders{ get; set; }
+        public DbSet<OrderHistory> OrderHistories{ get; set; }
 
         #endregion
     }
