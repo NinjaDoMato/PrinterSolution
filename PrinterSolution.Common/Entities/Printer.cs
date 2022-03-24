@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 
 namespace PrinterSolution.Common.Entities
 {
@@ -19,7 +20,7 @@ namespace PrinterSolution.Common.Entities
         public PrinterStatus Status { get; set; }
         public PrinterType Type { get; set; }
         public DateTime LastMaintenance { get; set; }
-        public int? CoupledMaterialId { get; set; }
+        public long? CoupledMaterialId { get; set; }
 
         public int Height { get; set; }
         public int Width { get; set; }

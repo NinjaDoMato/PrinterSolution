@@ -26,11 +26,4 @@ namespace PrinterSolution.Common.Utils.Enum
         [Description("Error")]
         Error,
     }
-
-    public enum OrderHystoryType
-    {
-        StatusUpdate,
-        Observation,
-        Error
-    }
 }

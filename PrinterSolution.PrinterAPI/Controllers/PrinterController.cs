@@ -23,6 +23,7 @@ namespace PrinterSolution.PrinterAPI.Controllers
             _printerService = printerService;
         }
 
+        #region CRUD
         [HttpGet]
         [Route("Get")]
         public ActionResult<List<Printer>> Get()
@@ -87,5 +88,25 @@ namespace PrinterSolution.PrinterAPI.Controllers
                 return BadRequest(ex.InnerException != null ? ex.InnerException.Message : ex.Message);
             }
         }
+        #endregion
+
+        #region Commands
+        [HttpGet]
+        [Route("Info/{printerId}")]
+        public ActionResult<Printer> GetPrinterInfo(long printerId)
+        {
+            try
+            {
+                var printer = _printerService.GetPrinterById(printerId);
+
+                return printer;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+            }
+        }
+        #endregion
     }
 }

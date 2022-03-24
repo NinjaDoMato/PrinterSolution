@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace PrinterSolution.Common.Entities
 {
-    public class OrderHistory : BaseEntity
+    public class JobHistory :BaseEntity
     {
         public string Description { get; set; }
         public HistoryType Type { get; set; }
-        public long OrderId { get; set; }
-        public Order Order { get; set; }
+        public long JobId { get; set; }
+        public Job Job { get; set; }
     }
 }

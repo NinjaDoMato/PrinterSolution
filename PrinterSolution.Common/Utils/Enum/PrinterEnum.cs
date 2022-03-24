@@ -19,4 +19,12 @@ namespace PrinterSolution.Common.Utils.Enum
         FDM,
         SLS
     }
+
+    public enum CommandType
+    {
+        Printer,
+        Bed,
+        Tool,
+        File
+    }
 }

@@ -10,7 +10,7 @@ namespace PrinterSolution.Common.Entities
     public class BaseEntity
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? LastUpdate { get; set; }
     }
