@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PrinterSolution.Common.Validators
+namespace PrinterSolution.Common.Utils.Validators
 {
     public abstract class BaseValidator<T> : AbstractValidator<T>
     {

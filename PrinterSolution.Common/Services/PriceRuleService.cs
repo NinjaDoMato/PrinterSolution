@@ -1,6 +1,7 @@
 ﻿using PrinterSolution.Common.Database;
 using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Utils.Enum;
+using PrinterSolution.Common.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,15 +30,6 @@ namespace PrinterSolution.Common.Services
 
         public PriceRule CreateRule(string name, string code, string description, PriceRuleTarget target, PriceRuleOperation type, decimal amount, int priority)
         {
-            if (_ctx.PriceRules.Any(p => p.Name == name))
-                throw new ArgumentException("This name is already used by another price rule.");
-
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentException("Name cannot be empty");
-
-            if (string.IsNullOrEmpty(code))
-                throw new ArgumentException("Code cannot be empty");
-
             var priceRule = new PriceRule
             {
                 Name = name,
@@ -49,6 +41,15 @@ namespace PrinterSolution.Common.Services
                 Priority = priority,
                 Status = true
             };
+
+            var validator = new PriceRuleValidator();
+            validator.ValidateAndHandle(priceRule);
+
+            if (_ctx.PriceRules.Any(p => p.Name == name))
+                throw new ArgumentException("This name is already used by another price rule.");
+
+            if (_ctx.PriceRules.Any(p => p.Code == name))
+                throw new ArgumentException("This code is already used by another price rule.");
 
             _ctx.PriceRules.Add(priceRule);
             _ctx.SaveChanges();
@@ -90,6 +91,9 @@ namespace PrinterSolution.Common.Services
 
         public PriceRule UpdateRule(PriceRule newRule)
         {
+            var validator = new PriceRuleValidator();
+            validator.ValidateAndHandle(newRule);
+
             if (_ctx.PriceRules.Any(p => p.Id != newRule.Id && (p.Name == newRule.Name || p.Code == newRule.Code)))
                 throw new Exception("This name or code is already used.");
 
