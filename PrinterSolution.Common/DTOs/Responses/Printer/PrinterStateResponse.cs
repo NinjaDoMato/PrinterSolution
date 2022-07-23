@@ -13,8 +13,8 @@ namespace PrinterSolution.Common.DTOs.Responses.Printer
         public string PrinterName { get; set; }
         public PrinterStatus Status { get; set; }
         public TempStatus Tool { get; set; }
-        public TempStatus? Bed { get; set; }
-        public decimal CPU { get; set; }
+        public TempStatus Bed { get; set; }
+        public decimal CPUTemp { get; set; }
     }
 
     public class TempStatus

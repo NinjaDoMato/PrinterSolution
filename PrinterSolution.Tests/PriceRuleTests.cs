@@ -54,7 +54,7 @@ namespace PrinterSolution.Tests
             Assert.IsTrue(testData.Status.Equals(result.Status));
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod, ExpectedException(typeof(AggregateException))]
         public void NotValidCreatePriceRule()
         {
             // Arrange

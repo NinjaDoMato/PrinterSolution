@@ -23,7 +23,6 @@ namespace PrinterSolution.PrinterAPI.Controllers
             _printerService = printerService;
         }
 
-        #region CRUD
         [HttpGet]
         [Route("Get")]
         public ActionResult<List<Printer>> Get()
@@ -74,7 +73,7 @@ namespace PrinterSolution.PrinterAPI.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public IActionResult Delete([FromQuery] int id)
+        public IActionResult Delete([FromQuery] long id)
         {
             try
             {
@@ -88,18 +87,16 @@ namespace PrinterSolution.PrinterAPI.Controllers
                 return BadRequest(ex.InnerException != null ? ex.InnerException.Message : ex.Message);
             }
         }
-        #endregion
 
-        #region Commands
         [HttpGet]
-        [Route("Info/{printerId}")]
-        public ActionResult<Printer> GetPrinterInfo(long printerId)
+        [Route("Details/{printerId}")]
+        public ActionResult<Printer> GetPrinterDetails(long printerId)
         {
             try
             {
                 var printer = _printerService.GetPrinterById(printerId);
 
-                return printer;
+                return Ok(printer);
             }
             catch (Exception ex)
             {
@@ -107,6 +104,12 @@ namespace PrinterSolution.PrinterAPI.Controllers
                 return BadRequest(ex.InnerException != null ? ex.InnerException.Message : ex.Message);
             }
         }
-        #endregion
+
+        [HttpGet]
+        [Route("Status/{printerId}")]
+        public IActionResult GetPrinterStatus(long printerId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

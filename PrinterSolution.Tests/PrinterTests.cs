@@ -44,17 +44,17 @@ namespace PrinterSolution.Tests
             Assert.IsTrue(testData.Depth.Equals(result.Depth));
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod, ExpectedException(typeof(AggregateException))]
         public void NotValidCreatePrinter()
         {
             // Arrange
             var testData = new Printer
             {
                 Name = string.Empty,
-                Address = It.IsAny<string>(),
-                Width = It.IsAny<int>(),
-                Height = It.IsAny<int>(),
-                Depth = It.IsAny<int>(),
+                Address = string.Empty,
+                Width = 200,
+                Height = -110,
+                Depth = 200,
                 HasHeatedBed = It.IsAny<bool>(),
                 Status = It.IsAny<PrinterStatus>()
             };
