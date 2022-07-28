@@ -57,7 +57,7 @@ namespace PrinterSolution.Service.Services
             return true;
         }
 
-        public Material GetMaterialById(int id)
+        public Material GetMaterialById(long id)
         {
             var material = repository.FirstOrDefault(m => m.Id == id);
 

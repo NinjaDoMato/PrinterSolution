@@ -4,7 +4,7 @@
     {
         public Material CreateMaterial(string name, string code, decimal pricePerKilo, MaterialType type);
         public Material UpdateMaterial(Material material);
-        public Material GetMaterialById(int id);
+        public Material GetMaterialById(long id);
 
         public bool DeleteMaterial(long id);
         public List<Material> GetMaterials();

@@ -10,11 +10,15 @@ namespace PrinterSolution.Tests
         [TestMethod]
         public void ValidGetMaterial()
         {
-            var result = materialService.GetMaterialById(1);
+            var material = materialService.GetMaterials().First();
+
+            Assert.IsNotNull(material);
+
+            var result = materialService.GetMaterialById(material.Id);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Material));
-            Assert.AreEqual(result.Id, 1);
+            Assert.AreEqual(result.Id, material.Id);
         }
 
         [TestMethod]
