@@ -1,12 +1,14 @@
-﻿namespace PrinterSolution.Service.Services
+﻿using PrinterSolution.Repository.Interfaces;
+
+namespace PrinterSolution.Service.Services
 {
     public class MaterialService : IMaterialService
     {
-        private readonly IMaterialService service;
+        private readonly IRepository<Material> repository;
 
-        public MaterialService(IMaterialService service)
+        public MaterialService(IRepository<Material> repository)
         {
-            this.service = service;
+            this.repository = repository;
         }
 
         public Material CreateMaterial(string name, string code, decimal pricePerKilo, MaterialType type)
@@ -20,11 +22,15 @@
             if (pricePerKilo <= 0)
                 throw new ArgumentException("Price per kilo must be greater than 0.");
 
-            if (_ctx.Materials.Any(m => m.Name == name))
+            if (repository.FirstOrDefault(m => m.Name == name) != null)
+            {
                 throw new Exception("This name is already used.");
+            }
 
-            if (_ctx.Materials.Any(m => m.Code == code))
+            if (repository.FirstOrDefault(m => m.Code == code) != null)
+            {
                 throw new Exception("This code is already used.");
+            }
 
             var newMaterial = new Material
             {
@@ -34,46 +40,52 @@
                 Type = type
             };
 
-            _ctx.Materials.Add(newMaterial);
-            _ctx.SaveChanges();
+            newMaterial = repository.Insert(newMaterial);
 
             return newMaterial;
         }
 
-        public bool DeleteMaterial(int id)
+        public bool DeleteMaterial(long id)
         {
-            var material = _ctx.Materials.FirstOrDefault(m => m.Id == id);
+            var material = repository.FirstOrDefault(m => m.Id == id);
 
             if (material == null)
                 throw new KeyNotFoundException("Material not found.");
 
-            _ctx.Materials.Remove(material);
+            repository.Delete(material);
 
             return true;
         }
 
         public Material GetMaterialById(int id)
         {
-            return _ctx.Materials.FirstOrDefault(m => m.Id == id);
+            var material = repository.FirstOrDefault(m => m.Id == id);
+
+            if (material == null)
+            {
+                throw new KeyNotFoundException("Material not found.");
+            }
+
+            return material;
         }
 
         public List<Material> GetMaterials()
         {
-            return _ctx.Materials.ToList();
+            return repository.Where(m => m.Id > 0).ToList();
         }
 
         public Material UpdateMaterial(Material material)
         {
-            if (!_ctx.Materials.Any(m => m.Id == material.Id))
+            if (repository.FirstOrDefault(m => m.Id == material.Id) == null)
                 throw new KeyNotFoundException("Material not found.");
 
-            if (_ctx.Materials.Any(m => m.Name == material.Name && m.Id != material.Id))
+            if (repository.FirstOrDefault(m => m.Name == material.Name && m.Id != material.Id) != null)
                 throw new Exception("This name is already used.");
 
-            if (_ctx.Materials.Any(m => m.Code == material.Code && m.Id != material.Id))
+            if (repository.FirstOrDefault(m => m.Code == material.Code && m.Id != material.Id) != null)
                 throw new Exception("This code is already used.");
 
-            _ctx.Materials.Update(material);
+            repository.Update(material);
 
             return material;
         }

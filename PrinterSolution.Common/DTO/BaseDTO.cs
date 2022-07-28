@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
-namespace PrinterSolution.Repository.DTO
+namespace PrinterSolution.Common.DTO
 {
     public abstract class BaseDTO
     {
-        [Key]
         public long Id { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? LastUpdate { get; set; }

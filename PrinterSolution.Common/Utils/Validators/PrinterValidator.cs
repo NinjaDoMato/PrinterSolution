@@ -1,14 +1,9 @@
 ﻿using FluentValidation;
-using PrinterSolution.Common.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PrinterSolution.Common.DTOs.Requests;
 
 namespace PrinterSolution.Common.Utils.Validators
 {
-    public class PrinterValidator : BaseValidator<Printer>
+    public class PrinterValidator : BaseValidator<CreatePrinterModel>
     {
         public PrinterValidator()
         {
@@ -33,7 +28,7 @@ namespace PrinterSolution.Common.Utils.Validators
                 .NotEmpty()
                 .GreaterThan(0)
                 .WithMessage("Printer width cannot be negative.");
-            
+
             RuleFor(x => x.Height)
                 .NotNull()
                 .NotEmpty()

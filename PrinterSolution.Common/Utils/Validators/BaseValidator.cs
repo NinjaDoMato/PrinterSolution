@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PrinterSolution.Common.Utils.Validators
 {
@@ -12,7 +9,7 @@ namespace PrinterSolution.Common.Utils.Validators
     {
         public virtual bool ValidateAndHandle(T instance)
         {
-            var validation = this.Validate(instance);
+            var validation = Validate(instance);
 
             if (!validation.IsValid)
             {

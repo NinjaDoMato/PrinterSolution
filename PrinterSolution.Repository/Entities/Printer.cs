@@ -6,13 +6,13 @@ namespace PrinterSolution.Repository.Entities
     public class Printer : BaseEntity
     {
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
         public PrinterStatus Status { get; set; }
         public PrinterType Type { get; set; }
-        public DateTime LastMaintenance { get; set; }
+        public DateTime? LastMaintenance { get; set; }
         public long? CoupledMaterialId { get; set; }
 
         public int Height { get; set; }
@@ -21,6 +21,6 @@ namespace PrinterSolution.Repository.Entities
         public bool HasHeatedBed { get; set; }
 
         [ForeignKey("CoupledMaterialId")]
-        public Material CoupledMaterial { get; set; }
+        public Material? CoupledMaterial { get; set; } = new();
     }
 }

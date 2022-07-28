@@ -1,14 +1,23 @@
-﻿using System.Globalization;
+﻿using PrinterSolution.Common.DTOs;
+using PrinterSolution.Repository.Interfaces;
+using System.Globalization;
 
 namespace PrinterSolution.Service.Services
 {
     public class PriceService : IPriceService
     {
-        private readonly DatabaseContext ctx;
+        private readonly IRepository<PriceRule> priceRuleRepository;
+        private readonly IRepository<Material> materialRepository;
+        private readonly IRepository<Configuration> configurationRepository;
 
-        public PriceService(DatabaseContext databaseContext)
+        public PriceService(
+            IRepository<PriceRule> priceRuleRepository,
+            IRepository<Material> materialRepository,
+            IRepository<Configuration> configurationRepository)
         {
-            ctx = databaseContext;
+            this.priceRuleRepository = priceRuleRepository;
+            this.materialRepository = materialRepository;
+            this.configurationRepository = configurationRepository;
         }
 
         public decimal EstimateFinalPrice(decimal weight, string materialCode, decimal hoursPrinting, decimal manualWorkTime)
@@ -16,7 +25,7 @@ namespace PrinterSolution.Service.Services
             var productionCost = EstimateProductionCost(weight, materialCode, hoursPrinting, manualWorkTime);
             var finalPrice = productionCost;
 
-            var rules = ctx.PriceRules.Where(r =>
+            var rules = priceRuleRepository.Where(r =>
                     r.Target == PriceRuleTarget.FinalPrice);
 
             foreach (var rule in rules.OrderByDescending(r => r.Priority))
@@ -38,23 +47,23 @@ namespace PrinterSolution.Service.Services
             decimal cost = 0m;
 
 
-            var rules = ctx.PriceRules.Where(r =>
+            IOrderedEnumerable<PriceRule> rules = priceRuleRepository.Where(r =>
                 r.Target == PriceRuleTarget.Preparation ||
                 r.Target == PriceRuleTarget.EnergyCost ||
                 r.Target == PriceRuleTarget.MaterialCost).OrderBy(p => p.Priority);
 
-            var material = ctx.Materials.FirstOrDefault(m => m.Code == materialCode);
+            var material = materialRepository.FirstOrDefault(m => m.Code == materialCode);
 
             if (material == null)
                 throw new ArgumentException("Material not found.");
 
-            var energyPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
-            var averagePowerUse = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
-            var preparationPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
+            decimal energyPrice = decimal.Parse(configurationRepository.Single(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
+            decimal averagePowerUse = decimal.Parse(configurationRepository.Single(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
+            decimal preparationPrice = decimal.Parse(configurationRepository.Single(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
 
-            var materialCost = weight * material.PricePerKilo;
-            var energyCost = energyPrice * averagePowerUse * hoursPrinting;
-            var preparationCost = preparationPrice * preparationTime;
+            decimal materialCost = weight * material.PricePerKilo;
+            decimal energyCost = energyPrice * averagePowerUse * hoursPrinting;
+            decimal preparationCost = preparationPrice * preparationTime;
 
             foreach (var rule in rules.OrderByDescending(r => r.Priority))
             {
@@ -91,16 +100,14 @@ namespace PrinterSolution.Service.Services
             var detailedPrice = new DetailedPriceEstimation();
 
 
-            var rules = ctx.PriceRules.Where(r => r.Status).OrderBy(p => p.Priority);
+            var rules = priceRuleRepository.Where(r => r.Status).OrderBy(p => p.Priority);
 
-            var material = ctx.Materials.FirstOrDefault(m => m.Code == materialCode);
+            var material = materialRepository.Single(m => m.Code == materialCode);
 
-            if (material == null)
-                throw new ArgumentException("Material not found.");
 
-            var energyPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
-            var averagePowerUse = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
-            var preparationPrice = Decimal.Parse(ctx.Configurations.FirstOrDefault(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
+            var energyPrice = Decimal.Parse(configurationRepository.Single(c => c.Code == "kWh").Value, CultureInfo.InvariantCulture);
+            var averagePowerUse = Decimal.Parse(configurationRepository.Single(c => c.Code == "AvgkWh").Value, CultureInfo.InvariantCulture);
+            var preparationPrice = Decimal.Parse(configurationRepository.Single(c => c.Code == "MWC").Value, CultureInfo.InvariantCulture);
 
             detailedPrice.TotalMaterialCost = weight * material.PricePerKilo;
             detailedPrice.TotalEnergyCost = energyPrice * averagePowerUse * hoursPrinting;

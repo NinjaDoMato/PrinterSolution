@@ -1,13 +1,9 @@
 ﻿using ConfigurationSolution.Tests.Faker;
 using MaterialSolution.Tests.Faker;
 using Microsoft.EntityFrameworkCore;
-using PrinterSolution.Common.Database;
+using PrinterSolution.Repository.Database;
 using PrinterSolution.Tests.Faker;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PrinterSolution.Tests.Context
 {
@@ -20,6 +16,8 @@ namespace PrinterSolution.Tests.Context
         {
             ContextOptions = new DbContextOptionsBuilder<DatabaseContext>()
                      .UseInMemoryDatabase("in_memory")
+                     .EnableSensitiveDataLogging()
+                     .EnableDetailedErrors()
                      .Options;
 
             Context = new DatabaseContext(ContextOptions);

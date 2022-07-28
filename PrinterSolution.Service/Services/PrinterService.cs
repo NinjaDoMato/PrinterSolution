@@ -1,55 +1,44 @@
-﻿namespace PrinterSolution.Service.Services
+﻿using AutoMapper;
+using PrinterSolution.Common.DTOs.Requests;
+using PrinterSolution.Repository.Interfaces;
+
+namespace PrinterSolution.Service.Services
 {
     public class PrinterService : IPrinterService
     {
-        private readonly DatabaseContext _ctx;
-
-        public PrinterService(DatabaseContext context)
+        private readonly IRepository<Printer> repository;
+        private readonly IMapper mapper;
+        public PrinterService(IRepository<Printer> repository, IMapper mapper)
         {
-            _ctx = context;
+            this.mapper = mapper;
+            this.repository = repository;
         }
 
-        public Printer CreatePrinter(string name, string address, PrinterType type, int height = 100, int width = 100, int depth = 100, bool heatBed = false)
+        public Printer CreatePrinter(CreatePrinterModel model)
         {
-            var printer = new Printer
-            {
-                Name = name,
-                Address = address,
-                Type = type,
-                Height = height,
-                Width = width,
-                Depth = depth,
-                HasHeatedBed = heatBed,
-                DateCreated = DateTime.Now,
-                Status = PrinterStatus.Offline
-            };
+            var printer = mapper.Map<Printer>(model);
 
-            var validator = new PrinterValidator();
-            validator.ValidateAndHandle(printer);
-
-            _ctx.Printers.Add(printer);
-            _ctx.SaveChanges();
+            repository.Insert(printer);
 
             return printer;
         }
 
         public bool DeletePrinter(long id)
         {
-            var printer = _ctx.Printers.FirstOrDefault(p => p.Id == id);
+            var printer = repository.FirstOrDefault(p => p.Id == id);
             if (printer == null)
             {
                 throw new KeyNotFoundException("Printer not found.");
             }
 
-            _ctx.Printers.Remove(printer);
-            _ctx.SaveChanges();
+            repository.Delete(printer);
 
             return true;
         }
 
         public Printer GetPrinterById(long id)
         {
-            var printer = _ctx.Printers.Find(id);
+            var printer = repository.Single(p => p.Id == id);
 
             if (printer == null)
             {
@@ -61,12 +50,12 @@
 
         public List<Printer> GetPrinters()
         {
-            return _ctx.Printers.ToList();
+            return repository.Where(p => true).ToList();
         }
 
         public async Task<Printer> GetPrinterStatusById(long id)
         {
-            var printer = _ctx.Printers.Find(id);
+            var printer = repository.Single(p => p.Id == id);
 
             if (printer == null)
             {
@@ -87,21 +76,20 @@
 
         public Printer UpdatePrinter(Printer printer)
         {
-            var validator = new PrinterValidator();
-            validator.ValidateAndHandle(printer);
+            //var validator = new PrinterValidator();
+            //validator.ValidateAndHandle(printer);
 
-            if (_ctx.Printers.Any(p => p.Id != printer.Id && p.Name.Equals(printer.Name)))
+            if (repository.Where(p => p.Id != printer.Id && p.Name.Equals(printer.Name)).Any())
             {
                 throw new ArgumentException("This name is already used.");
             }
 
-            if (_ctx.Printers.Any(p => p.Id != printer.Id && p.Address.Equals(printer.Address)))
+            if (repository.Where(p => p.Id != printer.Id && p.Address.Equals(printer.Address)).Any())
             {
                 throw new ArgumentException("This name is already used.");
             }
 
-            _ctx.Printers.Update(printer);
-            _ctx.SaveChanges();
+            repository.Update(printer);
 
             return printer;
         }

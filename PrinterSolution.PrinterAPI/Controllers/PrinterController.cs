@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrinterSolution.Common.DTOs.Requests;
-using PrinterSolution.Common.Entities;
-using PrinterSolution.Common.Services;
+using PrinterSolution.Repository.Entities;
+using PrinterSolution.Service.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PrinterSolution.PrinterAPI.Controllers
 {
@@ -41,11 +39,11 @@ namespace PrinterSolution.PrinterAPI.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public ActionResult<Printer> Create([FromBody] CreatePrinterRequest request)
+        public ActionResult<Printer> Create([FromBody] CreatePrinterModel request)
         {
             try
             {
-                var result = _printerService.CreatePrinter(request.Name, request.Address, request.Type, request.Height, request.Width, request.Depth, request.HeatBed);
+                var result = _printerService.CreatePrinter(request);
 
                 return Ok(result);
             }

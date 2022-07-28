@@ -1,31 +1,16 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using PrinterSolution.Common.Entities;
-using PrinterSolution.Common.Services;
 using PrinterSolution.Common.Utils.Enum;
-using PrinterSolution.Tests.Context;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace PrinterSolution.Tests
 {
     [TestClass]
-    public class MaterialUnitTests
+    public class MaterialUnitTests : TestBase
     {
-        private readonly IMaterialService _service;
-        public MaterialUnitTests()
-        {
-            var context = new InMemoryDatabaseContext();
-
-            _service = new MaterialService(context.Context);
-        }
-
         [TestMethod]
         public void ValidGetMaterial()
         {
-            var result = _service.GetMaterialById(1);
+            var result = materialService.GetMaterialById(1);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Material));
@@ -35,7 +20,7 @@ namespace PrinterSolution.Tests
         [TestMethod]
         public void ValidGetMaterials()
         {
-            var result = _service.GetMaterials();
+            var result = materialService.GetMaterials();
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<Material>));
@@ -54,7 +39,7 @@ namespace PrinterSolution.Tests
             };
 
             // Act
-            var result = _service.CreateMaterial(testData.Name, testData.Code, testData.PricePerKilo, testData.Type);
+            var result = materialService.CreateMaterial(testData.Name, testData.Code, testData.PricePerKilo, testData.Type);
 
             // Assert
             Assert.IsNotNull(result);
@@ -71,14 +56,14 @@ namespace PrinterSolution.Tests
         public void ValidUpdateMaterial()
         {
             // Arrange
-            var material = _service.GetMaterialById(1);
+            var material = materialService.GetMaterials().First();
 
             material.Name = "Updated Name";
             material.Code = "Updated Code";
             material.PricePerKilo = 200.0m;
 
             // Act
-            var result = _service.UpdateMaterial(material);
+            var result = materialService.UpdateMaterial(material);
 
             // Assert
             Assert.IsNotNull(result);
@@ -94,7 +79,9 @@ namespace PrinterSolution.Tests
         [TestMethod]
         public void ValidDeleteMaterial()
         {
-            var result   = _service.DeleteMaterial(1);
+            var material = materialService.GetMaterials().First();
+
+            var result = materialService.DeleteMaterial(material.Id);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(bool));

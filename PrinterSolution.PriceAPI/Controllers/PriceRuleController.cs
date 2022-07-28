@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrinterSolution.Common.DTOs.Requests;
-using PrinterSolution.Common.Entities;
-using PrinterSolution.Common.Services;
 using PrinterSolution.Common.Utils.Enum;
-using PrinterSolution.PriceAPI.Models.Requests;
-using PrinterSolution.PriceAPI.Models.Responses;
+using PrinterSolution.Repository.Entities;
+using PrinterSolution.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PrinterSolution.PriceAPI.Controllers
 {
@@ -35,9 +32,9 @@ namespace PrinterSolution.PriceAPI.Controllers
                 var result = _priceRuleService.GetRules();
 
                 result = result.Where(r =>
-                    (!string.IsNullOrEmpty(code)? r.Code.ToLower().Contains(code.ToLower()) : true) &&
-                    (target.HasValue? r.Target == target.Value : true) &&
-                    (type.HasValue? r.Operation == type.Value : true)
+                    (!string.IsNullOrEmpty(code) ? r.Code.ToLower().Contains(code.ToLower()) : true) &&
+                    (target.HasValue ? r.Target == target.Value : true) &&
+                    (type.HasValue ? r.Operation == type.Value : true)
                     ).ToList();
 
                 return Ok(result);
@@ -51,11 +48,11 @@ namespace PrinterSolution.PriceAPI.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public ActionResult<PriceRule> Create([FromBody] CreatePriceRuleRequest request)
+        public ActionResult<PriceRule> Create([FromBody] CreatePriceRuleModel request)
         {
             try
             {
-                var result = _priceRuleService.CreateRule(request.Name, request.Code, request.Description, request.Target, request.Type, request.Value, request.Priority);
+                var result = _priceRuleService.CreateRule(request);
 
                 return Ok(result);
             }
@@ -68,7 +65,7 @@ namespace PrinterSolution.PriceAPI.Controllers
 
         [HttpPost]
         [Route("Update")]
-        public ActionResult<PriceRule> Update([FromBody] CreatePriceRuleRequest request)
+        public ActionResult<PriceRule> Update([FromBody] CreatePriceRuleModel request)
         {
             try
             {
@@ -88,7 +85,7 @@ namespace PrinterSolution.PriceAPI.Controllers
         {
             try
             {
-                var result = _priceRuleService.DelceteRule(id);
+                var result = _priceRuleService.DeleteRule(id);
 
                 return Ok(result);
             }

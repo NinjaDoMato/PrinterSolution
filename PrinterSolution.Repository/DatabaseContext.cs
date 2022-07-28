@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PrinterSolution.Repository.Entities;
 
 namespace PrinterSolution.Repository.Database
 {
     public class DatabaseContext : DbContext
     {
-        private string _connectionString = "Server=localhost;Database=PrinterSolution;Trusted_Connection=True;";
+        private readonly string _connectionString = "Server=localhost;Database=PrinterSolution;Trusted_Connection=True;";
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
         }
 

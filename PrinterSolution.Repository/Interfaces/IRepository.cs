@@ -1,17 +1,21 @@
-﻿using PrinterSolution.Repository.DTO;
-using PrinterSolution.Repository.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace PrinterSolution.Repository.Interfaces
 {
-    internal interface IRepository<TEntity, TModel>
+    /// <summary>
+    /// Representation of the database for the given entity class
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    public interface IRepository<TEntity>
         where TEntity : BaseEntity
-        where TModel : BaseDTO
     {
-        TModel? FirsOrDefault(Expression<Func<TModel, bool>>? predicate = null);
-        Task<TModel?> FirsOrDefaultAsync(Expression<Func<TModel, bool>>? predicate = null);
+        TEntity? FirstOrDefault(Expression<Func<TEntity, bool>>? predicate = null, Expression<Func<TEntity, object>>[]? includeProperties = null);
+        Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>>? predicate = null, Expression<Func<TEntity, object>>[]? includeProperties = null);
 
-        IEnumerable<TModel> Where(Expression<Func<TModel, bool>> predicate);
+        TEntity Single(Expression<Func<TEntity, bool>>? predicate = null, Expression<Func<TEntity, object>>[]? includeProperties = null);
+        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>>? predicate = null, Expression<Func<TEntity, object>>[]? includeProperties = null);
+
+        IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
 
         TEntity Insert(TEntity entity);
         Task<TEntity> InsertAsync(TEntity entity);

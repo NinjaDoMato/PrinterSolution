@@ -1,26 +1,23 @@
 ﻿using Bogus;
-using PrinterSolution.Common.Entities;
 using PrinterSolution.Common.Utils.Enum;
 using PrinterSolution.Tests.Faker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConfigurationSolution.Tests.Faker
 {
     public class ConfigurationFaker : IEntityFaker<Configuration>
     {
-        private Faker<Configuration> _faker;
-        private List<string> _configurationCodes = new List<string>
+        private readonly Faker<Configuration> _faker;
+        private readonly List<string> _configurationCodes = new List<string>
         {
             "kWh",
             "AvgkWh",
             "MWC"
         };
 
-        private List<string> _configurationNames = new List<string>
+        private readonly List<string> _configurationNames = new List<string>
         {
             "Energy cost per Watt",
             "Average power consumption",

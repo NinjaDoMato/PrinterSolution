@@ -6,7 +6,7 @@
         public Material UpdateMaterial(Material material);
         public Material GetMaterialById(int id);
 
-        public bool DeleteMaterial(int id);
+        public bool DeleteMaterial(long id);
         public List<Material> GetMaterials();
     }
 }

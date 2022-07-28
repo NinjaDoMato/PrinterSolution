@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Flurl;
+﻿using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
 using PrinterSolution.Common.DTOs.Responses.OctoPrint;
+using System.Threading.Tasks;
 
 namespace PrinterSolution.Common.Utils.Helper
 {

@@ -1,31 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using PrinterSolution.Common.DTOs;
-using PrinterSolution.Common.Services;
+﻿using PrinterSolution.Common.DTOs;
+using PrinterSolution.Repository.Entities;
 using PrinterSolution.Tests.Context;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PrinterSolution.Tests
 {
     [TestClass]
-    public class PriceTests
+    public class PriceTests : TestBase
     {
-        private readonly IPriceService _service;
-        public PriceTests()
-        {
-            var context = new InMemoryDatabaseContext();
-
-            _service = new PriceService(context.Context);
-        }
-
         [TestMethod]
         public void ValidEstimateDetailedCosts()
         {
-            var result = _service.EstimateDetailedCosts(100, "PLA", 10, 0.5m);
+            var material = materialService.GetMaterials().First();
+
+            var result = priceService.EstimateDetailedCosts(100, material.Code, 10, 0.5m);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(DetailedPriceEstimation));

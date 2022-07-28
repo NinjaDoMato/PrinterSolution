@@ -1,14 +1,9 @@
 ﻿using FluentValidation;
-using PrinterSolution.Common.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PrinterSolution.Common.DTOs.Requests;
 
 namespace PrinterSolution.Common.Utils.Validators
 {
-    public class PriceRuleValidator : BaseValidator<PriceRule>
+    public class PriceRuleValidator : BaseValidator<CreatePriceRuleModel>
     {
         public PriceRuleValidator()
         {
