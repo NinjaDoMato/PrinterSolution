@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.PriceAPI", "PrinterSolution.PriceAPI\PrinterSolution.PriceAPI.csproj", "{B4DAA388-27B6-47A3-B395-E5A49CE4C164}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.Common", "PrinterSolution.Common\PrinterSolution.Common.csproj", "{002989DE-EFDC-4CC1-8897-5562E37D15E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.PrinterAPI", "PrinterSolution.PrinterAPI\PrinterSolution.PrinterAPI.csproj", "{D92801E4-7F80-4CE7-894E-402A8789D9F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.Tests", "PrinterSolution.Tests\PrinterSolution.Tests.csproj", "{AD29E160-9414-4331-94BB-1786D3DCD147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrinterSolution.Service", "PrinterSolution.Service\PrinterSolution.Service.csproj", "{7F66961F-BD4C-4713-BBCA-E3C038B6A472}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.Service", "PrinterSolution.Service\PrinterSolution.Service.csproj", "{7F66961F-BD4C-4713-BBCA-E3C038B6A472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrinterSolution.Repository", "PrinterSolution.Repository\PrinterSolution.Repository.csproj", "{D49CF1BB-1E5D-4BDE-955E-5EC5B9E788E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrinterSolution.Repository", "PrinterSolution.Repository\PrinterSolution.Repository.csproj", "{D49CF1BB-1E5D-4BDE-955E-5EC5B9E788E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrinterSolution.PriceAPI", "PrinterSolution.PriceAPI\PrinterSolution.PriceAPI.csproj", "{0E95070A-6EC6-489A-BF98-5A749C2DB2A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4DAA388-27B6-47A3-B395-E5A49CE4C164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4DAA388-27B6-47A3-B395-E5A49CE4C164}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4DAA388-27B6-47A3-B395-E5A49CE4C164}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4DAA388-27B6-47A3-B395-E5A49CE4C164}.Release|Any CPU.Build.0 = Release|Any CPU
 		{002989DE-EFDC-4CC1-8897-5562E37D15E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{002989DE-EFDC-4CC1-8897-5562E37D15E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{002989DE-EFDC-4CC1-8897-5562E37D15E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{D49CF1BB-1E5D-4BDE-955E-5EC5B9E788E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D49CF1BB-1E5D-4BDE-955E-5EC5B9E788E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D49CF1BB-1E5D-4BDE-955E-5EC5B9E788E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E95070A-6EC6-489A-BF98-5A749C2DB2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E95070A-6EC6-489A-BF98-5A749C2DB2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E95070A-6EC6-489A-BF98-5A749C2DB2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E95070A-6EC6-489A-BF98-5A749C2DB2A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

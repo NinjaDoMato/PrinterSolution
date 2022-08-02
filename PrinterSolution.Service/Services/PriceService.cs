@@ -1,4 +1,5 @@
 ﻿using PrinterSolution.Common.DTOs;
+using PrinterSolution.PriceAPI.Models.Requests;
 using PrinterSolution.Repository.Interfaces;
 using System.Globalization;
 
@@ -168,6 +169,10 @@ namespace PrinterSolution.Service.Services
             return detailedPrice;
         }
 
+        public DetailedPriceEstimation EstimateDetailedCosts(EstimatePriceRequest request)
+        {
+            return EstimateDetailedCosts(request.Weight, request.MaterialCode, request.HoursPrinting, request.PreparationTime);
+        }
 
         private decimal ApplyPriceRule(decimal originalAmount, decimal ruleValue, PriceRuleOperation type)
         {

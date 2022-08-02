@@ -1,14 +1,24 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:46984",
-      "sslPort": 44370
+      "applicationUrl": "http://localhost:11755",
+      "sslPort": 44316
     }
   },
   "profiles": {
+    "PrinterSolution.PriceAPI": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:7049;http://localhost:5049",
+      "dotnetRunMessages": true
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
@@ -17,15 +27,12 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PrinterSolution.PriceAPI": {
-      "commandName": "Project",
-      "dotnetRunMessages": "true",
+    "Docker": {
+      "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }
